@@ -1,6 +1,9 @@
 using System.Collections.Generic;
+using System.Linq;
 
 using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Extensions;
+
+using Newtonsoft.Json;
 
 using NhnToastSms.FunctionApp.Configurations;
 
@@ -14,6 +17,7 @@ namespace NhnToastSms.FunctionApp.Builders
         private string _baseUrl;
         private string _apiVersion;
         private string _apiUrl;
+        private string _queries;
 
         public RequestUrlBuilder()
         {
@@ -56,9 +60,24 @@ namespace NhnToastSms.FunctionApp.Builders
             return this;
         }
 
+        public RequestUrlBuilder WithQueries<T>(T queries)
+        {
+            var serialised = JsonConvert.SerializeObject(queries);
+            var deserialised = JsonConvert.DeserializeObject<Dictionary<string, string>>(serialised);
+
+            this._queries = string.Join("&", deserialised.Select(p => $"{p.Key}={p.Value}"));
+
+            return this;
+        }
+
         public string Build(IDictionary<string, object> @params = null)
         {
             var result = $"{this._hostname.TrimEnd('/')}/{this._baseUrl.TrimEnd('/')}/{this._apiVersion.Trim('/')}/{this._apiUrl.TrimStart('/')}";
+            if (!this._queries.IsNullOrWhiteSpace())
+            {
+                result += $"?{this._queries}";
+            }
+
             if (@params.IsNullOrDefault())
             {
                 return result;

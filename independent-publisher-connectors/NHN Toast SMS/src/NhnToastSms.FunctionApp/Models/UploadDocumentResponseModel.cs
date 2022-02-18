@@ -1,19 +1,10 @@
 namespace NhnToastSms.FunctionApp.Models
 {
-    public class UploadDocumentResponseModel
+    public class UploadDocumentResponseModel : BaseResponseModel<FileResponseBody>
     {
-        public virtual ResponseHeader Header { get; set; }
-        public virtual ResponseBody Body { get; set; }
     }
 
-    public class ResponseHeader
-    {
-        public virtual bool IsSuccessful { get; set; }
-        public virtual int Resultcode { get; set; }
-        public virtual string ResultMessage { get; set; }
-    }
-
-    public class ResponseBody
+    public class FileResponseBody
     {
         public virtual FileResponse Data { get; set; }
     }

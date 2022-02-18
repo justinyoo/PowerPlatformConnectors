@@ -7,7 +7,7 @@ using NhnToastSms.FunctionApp.Models;
 
 namespace NhnToastSms.FunctionApp.Examples
 {
-    public class UploadDocumentResponseExample : OpenApiExample<UploadDocumentResponseModel>
+    public class UploadDocumentResponseSuccessExample : OpenApiExample<UploadDocumentResponseModel>
     {
         public override IOpenApiExample<UploadDocumentResponseModel> Build(NamingStrategy namingStrategy = null)
         {
@@ -21,7 +21,7 @@ namespace NhnToastSms.FunctionApp.Examples
                         Resultcode = 0,
                         ResultMessage = "SUCCESS"
                     },
-                    Body = new ResponseBody()
+                    Body = new FileResponseBody()
                     {
                         Data = new FileResponse()
                         {
@@ -33,6 +33,14 @@ namespace NhnToastSms.FunctionApp.Examples
                 },
                 namingStrategy));
 
+            return this;
+        }
+    }
+
+    public class UploadDocumentResponseFailureExample : OpenApiExample<UploadDocumentResponseModel>
+    {
+        public override IOpenApiExample<UploadDocumentResponseModel> Build(NamingStrategy namingStrategy = null)
+        {
             this.Examples.Add(
                 OpenApiExampleResolver.Resolve("failure",
                 new UploadDocumentResponseModel()
