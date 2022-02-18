@@ -1,8 +1,6 @@
 using System.Runtime.Serialization;
-using System.Text.Json.Serialization;
 
-using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Attributes;
-
+using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 
 namespace NhnToastSms.FunctionApp.Enums
@@ -10,25 +8,25 @@ namespace NhnToastSms.FunctionApp.Enums
     [JsonConverter(typeof(StringEnumConverter))]
     public enum AuthorizationStatusType
     {
-        [Display("SRS01")]
+        [EnumMember(Value = "SRS01")]
         AuthorizationRequested = 1,
 
-        [Display("SRS02")]
+        [EnumMember(Value = "SRS02")]
         Reviewing = 2,
 
-        [Display("SRS03")]
+        [EnumMember(Value = "SRS03")]
         AuthorizationCompleted = 3,
 
-        [Display("SRS04")]
+        [EnumMember(Value = "SRS04")]
         AuthorizationRejected = 4,
 
-        [Display("SRS05")]
+        [EnumMember(Value = "SRS05")]
         PhoneBeingCertified = 5,
 
-        [Display("SRS06")]
+        [EnumMember(Value = "SRS06")]
         PhoneCertifyingFailed = 6,
 
-        [Display("SRS07")]
+        [EnumMember(Value = "SRS07")]
         ManualAuthorizationCompleted = 7,
     }
 }

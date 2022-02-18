@@ -57,14 +57,14 @@ namespace NhnToastSms.FunctionApp.Examples
         public override IOpenApiExample<GetAuthorizationStatusResponseModel> Build(NamingStrategy namingStrategy = null)
         {
             this.Examples.Add(
-                OpenApiExampleResolver.Resolve("invalid",
+                OpenApiExampleResolver.Resolve("notfound",
                 new GetAuthorizationStatusResponseModel()
                 {
                     Header = new ResponseHeader()
                     {
                         IsSuccessful = false,
-                        Resultcode = -3300,
-                        ResultMessage = "Invalid request."
+                        Resultcode = -9998,
+                        ResultMessage = "Not found"
                     },
                     Body = null,
                 },

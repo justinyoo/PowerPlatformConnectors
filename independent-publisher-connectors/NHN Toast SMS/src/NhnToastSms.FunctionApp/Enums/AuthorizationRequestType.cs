@@ -1,6 +1,6 @@
-﻿using System.Runtime.Serialization;
-using System.Text.Json.Serialization;
+using System.Runtime.Serialization;
 
+using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 
 namespace NhnToastSms.FunctionApp.Enums

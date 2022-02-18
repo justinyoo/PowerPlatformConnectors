@@ -9,7 +9,7 @@ namespace NhnToastSms.FunctionApp.Models
         [JsonProperty("sendNo")]
         public virtual string SenderNumber { get; set; }
 
-        public virtual AuthorizationStatusType Status { get; set; }
+        public virtual AuthorizationStatusType? Status { get; set; }
 
         [JsonProperty("pageNum")]
         public virtual int? PageNumber { get; set; }

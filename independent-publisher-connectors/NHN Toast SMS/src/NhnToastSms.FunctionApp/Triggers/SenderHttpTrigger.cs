@@ -114,7 +114,7 @@ namespace NhnToastSms.FunctionApp.Triggers
         }
 
         [FunctionName(nameof(SenderHttpTrigger.GetAuthorizationStatus))]
-        [OpenApiOperation(operationId: "Sender.Authorization.Request", tags: new[] { "sender" }, Summary = "Requests authorization", Description = "This requests authorization for the sender's phone numbers", Visibility = OpenApiVisibilityType.Important)]
+        [OpenApiOperation(operationId: "Sender.Authorization.Status", tags: new[] { "sender" }, Summary = "Requests authorization status", Description = "This requests authorization status for the sender's phone numbers", Visibility = OpenApiVisibilityType.Important)]
         [OpenApiSecurity(schemeName: "function_key", SecuritySchemeType.ApiKey, Name = "x-functions-key", In = OpenApiSecurityLocationType.Header, Description = "Function app access key")]
         [OpenApiSecurity(schemeName: "app_key", schemeType: SecuritySchemeType.ApiKey, Name = "x-app-key", In = OpenApiSecurityLocationType.Header, Description = "Unique application key")]
         [OpenApiSecurity(schemeName: "secret_key", schemeType: SecuritySchemeType.ApiKey, Name = "x-secret-key", In = OpenApiSecurityLocationType.Header, Description = "Unique secret key")]
