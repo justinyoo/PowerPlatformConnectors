@@ -1,15 +1,21 @@
 <Project Sdk="Microsoft.NET.Sdk">
+
   <PropertyGroup>
+    <!-- <TargetFramework>netcoreapp3.1</TargetFramework>
+    <AzureFunctionsVersion>v3</AzureFunctionsVersion> -->
     <TargetFramework>net6.0</TargetFramework>
     <AzureFunctionsVersion>v4</AzureFunctionsVersion>
+
+    <AssemblyName>FunctionApp</AssemblyName>
+    <RootNamespace>FunctionApp</RootNamespace>
   </PropertyGroup>
+
   <ItemGroup>
-    <PackageReference Include="Aliencube.AzureFunctions.Extensions.Common" Version="1.1.0" />
-    <PackageReference Include="Microsoft.Azure.Functions.Extensions" Version="1.1.0" />
     <PackageReference Include="Microsoft.Azure.WebJobs.Extensions.OpenApi" Version="1.1.0" />
-    <PackageReference Include="Microsoft.Extensions.Http" Version="6.0.0" />
+    <!-- <PackageReference Include="Microsoft.NET.Sdk.Functions" Version="3.0.13" /> -->
     <PackageReference Include="Microsoft.NET.Sdk.Functions" Version="4.0.1" />
   </ItemGroup>
+
   <ItemGroup>
     <None Update="host.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -19,4 +25,5 @@
       <CopyToPublishDirectory>Never</CopyToPublishDirectory>
     </None>
   </ItemGroup>
+
 </Project>
