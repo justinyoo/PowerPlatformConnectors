@@ -114,7 +114,7 @@ namespace NhnToastSms.FunctionApp.Triggers
         }
 
         [FunctionName(nameof(SenderHttpTrigger.GetAuthorizationStatus))]
-        [OpenApiOperation(operationId: "Sender.Authorization.Status", tags: new[] { "sender" }, Summary = "Requests authorization status", Description = "This requests authorization status for the sender's phone numbers", Visibility = OpenApiVisibilityType.Important)]
+        [OpenApiOperation(operationId: "Sender.Authorization.Status", tags: new[] { "sender" }, Summary = "Gets authorization status", Description = "This gets authorization status for the sender's phone numbers", Visibility = OpenApiVisibilityType.Important)]
         [OpenApiSecurity(schemeName: "function_key", SecuritySchemeType.ApiKey, Name = "x-functions-key", In = OpenApiSecurityLocationType.Header, Description = "Function app access key")]
         [OpenApiSecurity(schemeName: "app_key", schemeType: SecuritySchemeType.ApiKey, Name = "x-app-key", In = OpenApiSecurityLocationType.Header, Description = "Unique application key")]
         [OpenApiSecurity(schemeName: "secret_key", schemeType: SecuritySchemeType.ApiKey, Name = "x-secret-key", In = OpenApiSecurityLocationType.Header, Description = "Unique secret key")]
@@ -131,7 +131,7 @@ namespace NhnToastSms.FunctionApp.Triggers
             var queries = await req.To<GetAuthorizationStatusRequestModel>(SourceFrom.Query).ConfigureAwait(false);
 
             var requestUrl = new RequestUrlBuilder(this._settings)
-                                 .WithApiUrl(ApiUrls.RequestForAuthorizationUrl)
+                                 .WithApiUrl(ApiUrls.GetAuthorizationStatusUrl)
                                  .WithQueries(queries)
                                  .Build(new Dictionary<string, object>() { { "{appKey}", headers.AppKey } });
 
@@ -140,6 +140,49 @@ namespace NhnToastSms.FunctionApp.Triggers
             using (var msg = await this._http.GetAsync(requestUrl).ConfigureAwait(false))
             {
                 res = await msg.Content.ReadAsAsync<GetAuthorizationStatusResponseModel>().ConfigureAwait(false);
+            }
+
+            var result = default(IActionResult);
+            if (res.Header.IsSuccessful)
+            {
+                result = new OkObjectResult(res);
+            }
+            else
+            {
+                result = new InternalServerErrorObjectResult(res);
+            }
+
+            return result;
+        }
+
+        [FunctionName(nameof(SenderHttpTrigger.GetSenderNumbers))]
+        [OpenApiOperation(operationId: "Sender.GetNumbers", tags: new[] { "sender" }, Summary = "Gets the sender's phone numbers", Description = "This gets the sender's phone numbers", Visibility = OpenApiVisibilityType.Important)]
+        [OpenApiSecurity(schemeName: "function_key", SecuritySchemeType.ApiKey, Name = "x-functions-key", In = OpenApiSecurityLocationType.Header, Description = "Function app access key")]
+        [OpenApiSecurity(schemeName: "app_key", schemeType: SecuritySchemeType.ApiKey, Name = "x-app-key", In = OpenApiSecurityLocationType.Header, Description = "Unique application key")]
+        [OpenApiSecurity(schemeName: "secret_key", schemeType: SecuritySchemeType.ApiKey, Name = "x-secret-key", In = OpenApiSecurityLocationType.Header, Description = "Unique secret key")]
+        [OpenApiParameter(name: "sendNo", In = ParameterLocation.Query, Required = false, Type = typeof(string), Description = "The sender's phone number requested")]
+        [OpenApiParameter(name: "useYn", In = ParameterLocation.Query, Required = false, Type = typeof(string), Description = "The value indicating whether the number is used or not")]
+        [OpenApiParameter(name: "blockYn", In = ParameterLocation.Query, Required = false, Type = typeof(string), Description = "The value indicating whether the number is blocked or not")]
+        [OpenApiParameter(name: "pageNum", In = ParameterLocation.Query, Required = false, Type = typeof(int), Description = "Page number (default to 1)")]
+        [OpenApiParameter(name: "pageSize", In = ParameterLocation.Query, Required = false, Type = typeof(int), Description = "Number of items in a page (default to 15)")]
+        [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: ContentTypes.ApplicationJson, bodyType: typeof(GetSenderNumbersResponseModel), Example = typeof(GetSenderNumbersResponseModelSuccessExample), Summary = "Represents the successful operation", Description = "This represents the successful operation")]
+        [OpenApiResponseWithBody(statusCode: HttpStatusCode.InternalServerError, contentType: ContentTypes.ApplicationJson, bodyType: typeof(GetSenderNumbersResponseModel), Example = typeof(GetSenderNumbersResponseModelFailureExample), Summary = "Represents the request failure", Description = "This represents the request failure")]
+        public async Task<IActionResult> GetSenderNumbers(
+            [HttpTrigger(AuthorizationLevel.Function, HttpVerbs.GET, Route = "sender/numbers")] HttpRequest req)
+        {
+            var headers = await req.To<RequestHeaderModel>(SourceFrom.Header).ConfigureAwait(false);
+            var queries = await req.To<GetSenderNumbersRequestModel>(SourceFrom.Query).ConfigureAwait(false);
+
+            var requestUrl = new RequestUrlBuilder(this._settings)
+                                 .WithApiUrl(ApiUrls.GetSenderNumbersUrl)
+                                 .WithQueries(queries)
+                                 .Build(new Dictionary<string, object>() { { "{appKey}", headers.AppKey } });
+
+            var res = default(GetSenderNumbersResponseModel);
+            this._http.DefaultRequestHeaders.Add(ApiHeaders.SecretHeaderKey, headers.SecretKey);
+            using (var msg = await this._http.GetAsync(requestUrl).ConfigureAwait(false))
+            {
+                res = await msg.Content.ReadAsAsync<GetSenderNumbersResponseModel>().ConfigureAwait(false);
             }
 
             var result = default(IActionResult);

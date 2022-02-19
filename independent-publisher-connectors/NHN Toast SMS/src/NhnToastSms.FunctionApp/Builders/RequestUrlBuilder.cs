@@ -11,6 +11,8 @@ namespace NhnToastSms.FunctionApp.Builders
 {
     public class RequestUrlBuilder
     {
+        private static readonly JsonSerializerSettings serialiserSettings = new JsonSerializerSettings() { NullValueHandling = NullValueHandling.Ignore };
+
         private readonly ToastSettings _settings;
 
         private string _hostname;
@@ -62,8 +64,12 @@ namespace NhnToastSms.FunctionApp.Builders
 
         public RequestUrlBuilder WithQueries<T>(T queries)
         {
-            var serialised = JsonConvert.SerializeObject(queries);
+            var serialised = JsonConvert.SerializeObject(queries, serialiserSettings);
             var deserialised = JsonConvert.DeserializeObject<Dictionary<string, string>>(serialised);
+            if (!deserialised.Any())
+            {
+                return this;
+            }
 
             this._queries = string.Join("&", deserialised.Select(p => $"{p.Key}={p.Value}"));
 

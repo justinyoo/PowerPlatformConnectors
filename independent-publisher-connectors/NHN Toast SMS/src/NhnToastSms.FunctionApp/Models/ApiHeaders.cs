@@ -1,4 +1,4 @@
-﻿namespace NhnToastSms.FunctionApp.Configurations
+namespace NhnToastSms.FunctionApp.Models
 {
     public class ApiHeaders
     {

@@ -8,20 +8,8 @@ using NhnToastSms.FunctionApp.Enums;
 
 namespace NhnToastSms.FunctionApp.Models
 {
-    public class GetAuthorizationStatusResponseModel : BaseResponseModel<AuthorizationStatusResponseBody>
+    public class GetAuthorizationStatusResponseModel : BaseResponseModel<ResponseCollectionBody<AuthorizationStatusResponse>>
     {
-    }
-
-    public class AuthorizationStatusResponseBody
-    {
-        [JsonProperty("pageNum")]
-        public virtual int PageNumber { get; set; }
-
-        public virtual int PageSize { get; set; }
-
-        public virtual int TotalCount { get; set; }
-
-        public virtual List<AuthorizationStatusResponse> Data { get; set; } = new List<AuthorizationStatusResponse>();
     }
 
     public class AuthorizationStatusResponse

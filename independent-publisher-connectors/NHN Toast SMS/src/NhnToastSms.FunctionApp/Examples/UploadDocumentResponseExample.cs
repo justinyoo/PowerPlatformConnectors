@@ -21,7 +21,7 @@ namespace NhnToastSms.FunctionApp.Examples
                         Resultcode = 0,
                         ResultMessage = "SUCCESS"
                     },
-                    Body = new FileResponseBody()
+                    Body = new ResponseItemBody<FileResponse>()
                     {
                         Data = new FileResponse()
                         {
